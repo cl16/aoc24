@@ -26,7 +26,7 @@ public class Day2 {
     }
 
     private static Integer solvePartOne() {
-        List<String> input = InputReader.textFile("data/day2.txt");
+        List<String> input = InputReader.textFileLines("data/day2.txt");
         List<List<Integer>> reports = extractReports(input);
         int safeReports = 0;
         List<Integer> report;
@@ -40,7 +40,7 @@ public class Day2 {
     }
 
     private static Integer solvePartTwo() {
-        List<String> input = InputReader.textFile("data/day2.txt");
+        List<String> input = InputReader.textFileLines("data/day2.txt");
         List<List<Integer>> reports = extractReports(input);
         int safeReports = 0;
         List<Integer> report;

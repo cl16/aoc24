@@ -9,7 +9,7 @@ import java.util.List;
 public class Day1 {
 
     public static Integer solve() {
-        List<String> input = InputReader.textFile("data/day1.txt");
+        List<String> input = InputReader.textFileLines("data/day1.txt");
         List<Integer> listA = new ArrayList<>();
         List<Integer> listB = new ArrayList<>();
 

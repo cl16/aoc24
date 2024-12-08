@@ -1,14 +1,13 @@
 package org.helper;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class InputReader {
 
-    public static List<String> textFile(String path) {
+    public static List<String> textFileLines(String path) {
         try {
             File file = new File(path);
             Scanner reader = new Scanner(file);
@@ -18,6 +17,15 @@ public class InputReader {
                 data.add(line);
             }
             return data;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String textFileString(String path) {
+        try {
+            File file = new File(path);
+            return new Scanner(file).useDelimiter("\\Z").next();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
