@@ -32,33 +32,8 @@ public class Day2 {
         List<Integer> report;
         for (int i = 0; i < reports.size(); i++) {
             report = reports.get(i);
-            if (report.size() <= 2) {
+            if (safeReport(report)) {
                 safeReports++;
-                continue;
-            }
-            boolean increasing = true;
-            int prev, dif, absDif, curr;
-            prev = report.get(0);
-            for (int j = 1; j < report.size(); j++) {
-                curr = report.get(j);
-                dif = prev - curr;
-                absDif = Math.abs(dif);
-                if ((absDif < 1) || (absDif > 3)) {
-                    break;
-                }
-                if (j == 1) {
-                    if (dif > 0) {
-                        increasing = false;
-                    }
-                } else {
-                    if ((increasing && (dif > 0) || (!increasing && (dif < 0)))) {
-                        break;
-                    }
-                    if (j == (report.size() - 1)) {
-                        safeReports++;
-                    }
-                }
-                prev = report.get(j);
             }
         }
         return safeReports;
