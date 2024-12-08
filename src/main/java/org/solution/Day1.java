@@ -3,21 +3,13 @@ package org.solution;
 import org.helper.InputReader;
 import org.helper.Sorter;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Day1 {
 
-    public static Integer solution() {
-        List<String> input;
-        try {
-            input = InputReader.textFile("data/day1.txt");
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
+    public static Integer solve() {
+        List<String> input = InputReader.textFile("data/day1.txt");
         List<Integer> listA = new ArrayList<>();
         List<Integer> listB = new ArrayList<>();
 
@@ -36,6 +28,7 @@ public class Day1 {
             int dif =  Math.abs(sortedA.get(i) - sortedB.get(i));
             total = total + dif;
         }
+
         return total;
     }
 }
