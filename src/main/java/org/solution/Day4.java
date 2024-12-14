@@ -1,6 +1,7 @@
 package org.solution;
 
 import org.helper.InputReader;
+import org.helper.XYCoordinates;
 
 import java.util.List;
 
@@ -43,32 +44,51 @@ public class Day4 {
     }
 
     public Integer solve() {
-
+        XYCoordinates coordinates;
+        for (int y = 0; y < this.numRows; y++) {
+            for (int x = 0; x < this.numCols; x++) {
+                if (this.puzzleTextLines.get(y).charAt((x)) == 'X') {
+                    coordinates = new XYCoordinates(x, y);
+                    evaluatePaths(coordinates, 0);
+                }
+            }
+        }
+        return this.count;
     }
 
-    private void traceWord(int currIdx, int offset, int wordIdx) {
-        int nextIdx = currIdx + offset;
-        if (this.puzzleText.charAt(nextIdx) == this.target.charAt(wordIdx)) {
-            if (wordIdx == (this.target.length() - 1)) {
+    private boolean validTargetLetter(XYCoordinates coordinates, int wordIndex) {
+        char puzzleLetter = this.puzzleTextLines.get(coordinates.getY()).charAt(coordinates.getX());
+        char targetLetter = this.target.charAt(wordIndex);
+        return puzzleLetter == targetLetter;
+    }
+
+    private void evaluatePaths(XYCoordinates coordinates, int wordIndex) {
+        int x = coordinates.getX();
+        int y = coordinates.getY();
+        if ((x < 0) || (x == this.numCols) || (y < 0) || (y == this.numRows)) {
+            ;
+        }
+        else if (wordIndex == this.target.length() - 1) {
+            if (validTargetLetter(coordinates, wordIndex)) {
                 this.count++;
-            }
-            else {
-                traceWord(nextIdx, offset, wordIdx++);
-            }
+            };
         }
-    }
+        else if (validTargetLetter(coordinates, wordIndex)) {
+            wordIndex++;
 
-    private boolean inBounds(int currIdx, int offset) {
-        // determine whether the direction of the offset can be followed based on the currIdx position in the puzzle grid
-        int row = Math.floorDiv(currIdx, this.numCols);
-        int col = currIdx % this.numCols;
+            // left side
+            evaluatePaths(coordinates.shiftLeft(), wordIndex);
+            evaluatePaths(coordinates.shiftLeft().shiftUp(), wordIndex);
+            evaluatePaths(coordinates.shiftLeft().shiftDown(), wordIndex);
 
-        if ((currIdx + offset) < 0) {
-            return false;
+            // up/down
+            evaluatePaths(coordinates.shiftUp(), wordIndex);
+            evaluatePaths(coordinates.shiftDown(), wordIndex);
+
+            // right side
+            evaluatePaths(coordinates.shiftRight(), wordIndex);
+            evaluatePaths(coordinates.shiftRight().shiftUp(), wordIndex);
+            evaluatePaths(coordinates.shiftRight().shiftDown(), wordIndex);
         }
-        if ((currIdx + offset) > (this.numCols - 1)) {
-            return false;
-        }
-
-    }
+    };
 }

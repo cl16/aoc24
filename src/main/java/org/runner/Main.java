@@ -10,7 +10,8 @@ import org.solution.Day4;
 public class Main {
     public static void main(String[] args) {
 
-        int answer = Day4.solve();
+        Day4 problem = new Day4();
+        int answer = problem.solve();
         System.out.println(answer);
     }
 }
