@@ -44,51 +44,48 @@ public class Day4 {
     }
 
     public Integer solve() {
-        XYCoordinates coordinates;
         for (int y = 0; y < this.numRows; y++) {
             for (int x = 0; x < this.numCols; x++) {
                 if (this.puzzleTextLines.get(y).charAt((x)) == 'X') {
-                    coordinates = new XYCoordinates(x, y);
-                    evaluatePaths(coordinates, 0);
+                    branchPaths(x, y);
                 }
             }
         }
         return this.count;
     }
 
-    private boolean validTargetLetter(XYCoordinates coordinates, int wordIndex) {
-        char puzzleLetter = this.puzzleTextLines.get(coordinates.getY()).charAt(coordinates.getX());
+    private boolean validTargetLetter(int x, int y, int wordIndex) {
+        char puzzleLetter = this.puzzleTextLines.get(y).charAt(x);
         char targetLetter = this.target.charAt(wordIndex);
         return puzzleLetter == targetLetter;
     }
 
-    private void evaluatePaths(XYCoordinates coordinates, int wordIndex) {
-        int x = coordinates.getX();
-        int y = coordinates.getY();
+    private void evaluatePath(int x, int y, int xShift, int yShift, int wordIndex) {
+        x = x + xShift;
+        y = y + yShift;
         if ((x < 0) || (x == this.numCols) || (y < 0) || (y == this.numRows)) {
             ;
         }
-        else if (wordIndex == this.target.length() - 1) {
-            if (validTargetLetter(coordinates, wordIndex)) {
+        else if (wordIndex == (this.target.length() - 1)) {
+            if (validTargetLetter(x, y, wordIndex)) {
                 this.count++;
             };
         }
-        else if (validTargetLetter(coordinates, wordIndex)) {
-            wordIndex++;
-
-            // left side
-            evaluatePaths(coordinates.shiftLeft(), wordIndex);
-            evaluatePaths(coordinates.shiftLeft().shiftUp(), wordIndex);
-            evaluatePaths(coordinates.shiftLeft().shiftDown(), wordIndex);
-
-            // up/down
-            evaluatePaths(coordinates.shiftUp(), wordIndex);
-            evaluatePaths(coordinates.shiftDown(), wordIndex);
-
-            // right side
-            evaluatePaths(coordinates.shiftRight(), wordIndex);
-            evaluatePaths(coordinates.shiftRight().shiftUp(), wordIndex);
-            evaluatePaths(coordinates.shiftRight().shiftDown(), wordIndex);
+        else if (validTargetLetter(x, y, wordIndex)) {
+            evaluatePath(x, y, xShift, yShift, wordIndex + 1);
         }
     };
+
+    private void branchPaths(int x, int y) {
+        evaluatePath(x, y, -1, 1, 1);
+        evaluatePath(x, y, -1, 0, 1);
+        evaluatePath(x, y, -1, -1, 1);
+        evaluatePath(x, y, 0, 1, 1);
+        evaluatePath(x, y, 0, -1, 1);
+        evaluatePath(x, y, 1, 1, 1);
+        evaluatePath(x, y, 1, 0, 1);
+        evaluatePath(x, y, 1, -1, 1);
+    }
+
+
 }
